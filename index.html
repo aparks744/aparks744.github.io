@@ -2,8 +2,80 @@ aparks744.github.io
 ===================
 <!DOCTYPE html>
 <html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+	<head>
+		<title>To Do!</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+		<script src='https://cdn.firebase.com/js/client/1.0.17/firebase.js'></script>
+
+			<style>
+				.clicked {
+					font-weight : bold;
+				}
+			</style>
+		
+		<script>
+			var myDataRef = new Firebase('https://jzb5yp6gp39.firebaseio-demo.com/');
+	
+			var addToList = function() {		
+				
+				var text = $('#inputTask').val();
+				 myDataRef.push({text: text});
+				
+			};
+			
+			myDataRef.on('child_added',function(snapshot) {
+				var message = snapshot.val();
+				var listItem = "<li class = 'unclicked' >"+message.text+"</li>";
+				$("#list").append( listItem );
+
+			});
+			
+			
+				$(document).ready(function() {
+					$('ol').on('click', 'li', function() {
+						$(this).toggleClass('clicked');
+					});
+				});
+			
+			
+			
+		</script>
+	</head>
+	<body>
+		$('body').on('click', 'a.myclass', function() {
+			
+		});
+	
+		
+		<!-- Start of first page -->
+		<div data-role="page" id="foo">
+
+			<div data-role="header">
+				<h1>To Do List</h1>
+			</div><!-- /header -->
+				<div data-role="content">
+					
+					<form>
+						New Task: <input type="text" name="NewTask" id="inputTask"><br>
+						<input type="button" value="Submit" data-theme="b" onclick="addToList()"/>
+					</form>
+					
+
+					<ol id="list">						
+					</ol>
+					
+
+			</div><!-- /content -->
+
+			<div data-role="footer">
+				<h4></h4>
+			</div><!-- /footer -->
+		</div><!-- /page -->
+
+	</body>
 </html>
